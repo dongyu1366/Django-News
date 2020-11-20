@@ -1,0 +1,40 @@
+{% extends "news/base.html" %}
+{% load static %}
+
+{% block title %}Taiwan News{% endblock %}
+{% block head %}
+    <script defer src="{% static 'news/js/news.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+<div class="main" id="app">
+    <div class="row mb-2">
+        <div class="col pt-1">
+            <h4 id="category">{{category}}</h4>
+        </div>
+        <hr>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-12" v-for="news in newsListOn">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-primary">[[news.category]]</strong>
+                    <h3 class="mb-0">[[news.title]]</h3>
+                    <div class="mb-1 text-muted">[[news.date_str]]</div>
+                    <p class="card-text mb-auto">[[news.abstract]]</p>
+                    <a v-bind:href="news.source_token" class="stretched-link">Continue reading</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img class="img-thumbnail" width="300"
+                         v-bind:src="news.image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="button" class="btn btn-dark" v-on:click="showMoreNews($event)">More Stories</button>
+    </div>
+</div>
+{% endblock %}

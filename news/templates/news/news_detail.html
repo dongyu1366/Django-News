@@ -1,0 +1,38 @@
+{% extends "news/base.html" %}
+
+{% block title %}Taiwan News{% endblock %}
+
+{% block head %}
+<style>
+    .paragraph {
+        font-size: 1.5rem;
+    }
+    .author {
+        color: gray;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="main">
+    <div class="row">
+        <div class="col-lg-10 col-md-12 mx-auto">
+            <div class="Information mb-3">
+                <span class="cate-col"><a href="{% url 'category' category=tag %}">{{news.category}}</a></span>
+                <h1 class="h1t">{{news.title}}</h1>
+                <div class="updatetime">{{news.date_str}}</div>
+            </div>
+            <div class="FullPic mb-3">
+                <img class="img-fluid" src="{{news.image}}">
+            </div>
+            <div class="paragraph">
+                <p>{{news.content|linebreaks}}</p>
+                {% if news.author %}
+                <div class="author">{{news.author|linebreaks}}</div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
