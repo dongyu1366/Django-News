@@ -8,7 +8,7 @@ CATEGORY_TAG = {
     'Sports': 'sports',
     'Science & Tech': 'sci-tech',
     'Culture': 'culture',
-    'AD': 'ad'
+    'Sponsored Content': 'ad'
 }
 
 

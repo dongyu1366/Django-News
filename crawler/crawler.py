@@ -4,7 +4,7 @@ from queue import Queue
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import ElementNotInteractableException
-from .tool import CATEGORY_TAG, REMOVE_P_TAG
+from tool import CATEGORY_TAG, REMOVE_P_TAG
 from time import sleep
 import MySQLdb
 import os
