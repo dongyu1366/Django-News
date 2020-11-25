@@ -1,32 +1,37 @@
 var category = document.querySelector("#category").textContent;
-var newsList
-var totalNews
-var showNews = 10
+var pageIndex = 1
 Vue.createApp({
     delimiters: ['[[', ']]'],
     data() {
         return {
-            newsDisplay: null,
+            newsList: {},
         }
     },
-    mounted(){
-        console.log(category);
-        axios.post('/api/news-list/', {'category': category})
+//    mounted(){
+//        console.log(category);
+//        axios.post('/api/news-list/', {'category': category})
+//            .then(response => {
+//                newsList = response.data;
+//                totalNews = Object.keys(newsList).length;
+//                this.newsDisplay = newsList.slice(0, showNews);
+//                console.log(totalNews);
+//            })
+//            .catch(function (error) {
+//                console.log(error);
+//            });
+//    },
+    methods: {
+        fetchMoreNews(event) {
+            pageIndex += 1;
+            axios.post('/api/news-list/', {'category': category, 'page': pageIndex})
             .then(response => {
-                newsList = response.data;
-                totalNews = Object.keys(newsList).length;
-                this.newsDisplay = newsList.slice(0, showNews);
-                console.log(totalNews);
+                this.newsList = response.data;
+                console.log(this.newsList);
             })
             .catch(function (error) {
                 console.log(error);
             });
-    },
-    methods: {
-        showMoreNews(event) {
-            showNews += 10;
-            this.newsDisplay = newsList.slice(0, showNews);
-            if (showNews >= totalNews) {
+            if (pageIndex >= 10) {
                 event.target.style.display = "none";
             };
         },

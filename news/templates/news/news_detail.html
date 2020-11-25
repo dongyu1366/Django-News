@@ -20,11 +20,13 @@
             <div class="Information mb-3">
                 <span class="cate-col"><a href="{% url 'category' category=tag %}">{{news.category}}</a></span>
                 <h1 class="h1t">{{news.title}}</h1>
-                <div class="updatetime">{{news.date_str}}</div>
+                <div class="updatetime">{{news.date}}</div>
             </div>
+            {% if news.image %}
             <div class="FullPic mb-3">
                 <img class="img-fluid" src="{{news.image}}">
             </div>
+            {% endif %}
             <div class="paragraph">
                 <p>{{news.content|linebreaks}}</p>
                 {% if news.author %}

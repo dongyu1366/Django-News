@@ -7,7 +7,7 @@ class CategoryTool:
         'sports': 'Sports',
         'sci-tech': 'Science & Tech',
         'culture': 'Culture',
-        'ad': 'AD'
+        'ad': 'Sponsored Content'
     }
 
     TAG_DICT = {
@@ -18,7 +18,7 @@ class CategoryTool:
         'Sports': 'sports',
         'Science & Tech': 'sci-tech',
         'Culture': 'culture',
-        'AD': 'ad'
+        'Sponsored Content': 'ad'
     }
 
     @classmethod

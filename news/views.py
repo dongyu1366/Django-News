@@ -5,12 +5,16 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from news.models import NewsList, News
 from news.serializers import NewsListSerializer
-from news.tool import CategoryTool
+from news.utils import CategoryTool
 
 
 def index(request):
-    news_list = NewsList.objects.all().order_by('-date')[0:10]
-    context = {'category': 'Latest', 'news': news_list}
+    news_list = NewsList.objects.all().order_by('-token')[0:10]
+    data = list()
+    for a in news_list:
+        a.tag = CategoryTool.category_to_tag(a.category)
+        data.append(a)
+    context = {'category': 'Latest', 'news': data}
     return render(request, "news/index.html", context=context)
 
 
@@ -20,7 +24,13 @@ def display_news(request, category):
     """
     category_dict = CategoryTool.CATEGORY_DICT
     if category in category_dict:
-        context = {'category': category_dict[category]}
+        category = category_dict[category]
+        news_list = NewsList.objects.filter(category=category).order_by('-token')[0:10]
+        data = list()
+        for a in news_list:
+            a.tag = CategoryTool.category_to_tag(a.category)
+            data.append(a)
+        context = {'category': category, 'news': data}
         return render(request, "news/news.html", context=context)
     else:
         return HttpResponseNotFound('<h1>Page not found</h1>')
@@ -31,7 +41,7 @@ def display_news_detail(request, category, token):
     Display the content of the news
     """
     try:
-        news = News.objects.get(source_token=token)
+        news = News.objects.get(token=token)
         tag = CategoryTool.category_to_tag(category=news.category)
         context = {'news': news, 'tag': tag}
         return render(request, "news/news_detail.html", context=context)
@@ -45,12 +55,14 @@ def get_news_list(request):
     API endpoint that allows news to be viewed.
     """
     if request.method == 'GET':
-        news_list = NewsList.objects.all().order_by('-date')
+        news_list = NewsList.objects.all().order_by('-token')
         serializer = NewsListSerializer(news_list, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        data = request.data
-        news_list = NewsList.objects.filter(**data).order_by('-date')
+        category = request.data['category']
+        page = request.data['page']
+        news_list = NewsList.objects.filter(category=category).order_by('-token')
+        news_list = news_list[0:(10*page)]
         serializer = NewsListSerializer(news_list, many=True)
         return Response(serializer.data)
