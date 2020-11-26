@@ -14,8 +14,8 @@
 {% endif %}
 
 <div class="">
-    <h3 class="pt-3">Register</h3>
-    <form action="{% url 'register' %}" method="post">
+    <h3 class="pt-3">Sign up</h3>
+    <form action="{% url 'sign-up' %}" method="post">
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group">
@@ -30,7 +30,7 @@
         </div>
         {% endfor %}
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Sign up</button>
         </div>
     </form>
 </div>
